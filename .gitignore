@@ -1,0 +1,86 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.metadata/
+.settings/
+.project
+.classpath
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Application specific
+application-local.yml
+application-dev.yml
+*.env
+.env
+
+# Docker Compose - Keep only main file
+docker-compose-full.yml
+docker-compose-elk.yml
+
+# Test files
+test_*.json
+
+# Temporary documentation files
+*_SUMMARY.txt
+*_COMPLETE.txt
+DOCUMENTATION_ORGANIZED.txt
+GITHUB_PUSH_CHECKLIST.md
+
+# Docker volumes
+mysql-data/
+postgres-data/
+elasticsearch-data/
+
+# IDE specific
+*.swp
+*.swo
+*~

@@ -1,0 +1,20 @@
+spring:
+ application:
+  name: RatingService
+ config:
+  import: optional:configserver:http://localhost:8085
+ datasource:
+  url: jdbc:mysql://localhost:3306/rating_service
+  username: root
+  password: Vivek@123
+  driver-class-name: com.mysql.cj.jdbc.Driver
+
+ jpa:
+  hibernate:
+   ddl-auto: update
+  show-sql: true
+
+server:
+  port: 8083
+
+# Eureka configuration is fetched from Config Server (application.yml in Git)

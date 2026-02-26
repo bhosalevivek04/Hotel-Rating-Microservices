@@ -1,0 +1,606 @@
+{
+  "info": {
+    "name": "Microservices Project",
+    "description": "Complete API collection for microservices project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8084",
+      "type": "string"
+    },
+    {
+      "key": "authUrl",
+      "value": "http://localhost:8086",
+      "type": "string"
+    },
+    {
+      "key": "userUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "hotelUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "ratingUrl",
+      "value": "http://localhost:8083",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "hotelId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    pm.collectionVariables.set('userId', jsonData.userId);",
+                  "    console.log('Token saved:', jsonData.token);",
+                  "    console.log('UserId saved:', jsonData.userId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"password123\",\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"about\": \"Software Developer\"\n}"
+            },
+            "url": {
+              "raw": "{{authUrl}}/auth/register",
+              "host": ["{{authUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    pm.collectionVariables.set('userId', jsonData.userId);",
+                  "    console.log('Token saved:', jsonData.token);",
+                  "    console.log('UserId saved:', jsonData.userId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{authUrl}}/auth/login",
+              "host": ["{{authUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Validate Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{authUrl}}/auth/validate",
+              "host": ["{{authUrl}}"],
+              "path": ["auth", "validate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. User Service",
+      "item": [
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{userUrl}}/users/{{userId}}",
+              "host": ["{{userUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{userUrl}}/users",
+              "host": ["{{userUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"about\": \"Testing user creation\"\n}"
+            },
+            "url": {
+              "raw": "{{userUrl}}/users",
+              "host": ["{{userUrl}}"],
+              "path": ["users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Hotel Service",
+      "item": [
+        {
+          "name": "Create Hotel",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('hotelId', jsonData.id);",
+                  "    console.log('Hotel ID saved:', jsonData.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Grand Hotel\",\n  \"location\": \"Mumbai\",\n  \"about\": \"Luxury 5-star hotel with excellent amenities\"\n}"
+            },
+            "url": {
+              "raw": "{{hotelUrl}}/hotels",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels"]
+            }
+          }
+        },
+        {
+          "name": "Get Hotel by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{hotelUrl}}/hotels/{{hotelId}}",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels", "{{hotelId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get All Hotels",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{hotelUrl}}/hotels",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels"]
+            }
+          }
+        },
+        {
+          "name": "Update Hotel",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Grand Hotel Updated\",\n  \"location\": \"Mumbai\",\n  \"about\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{hotelUrl}}/hotels/{{hotelId}}",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels", "{{hotelId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Hotel",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{hotelUrl}}/hotels/{{hotelId}}",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels", "{{hotelId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Rating Service",
+      "item": [
+        {
+          "name": "Create Rating",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"hotelId\": \"{{hotelId}}\",\n  \"rating\": 5,\n  \"feedback\": \"Excellent hotel! Great service and amenities.\"\n}"
+            },
+            "url": {
+              "raw": "{{ratingUrl}}/ratings",
+              "host": ["{{ratingUrl}}"],
+              "path": ["ratings"]
+            }
+          }
+        },
+        {
+          "name": "Get All Ratings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{ratingUrl}}/ratings",
+              "host": ["{{ratingUrl}}"],
+              "path": ["ratings"]
+            }
+          }
+        },
+        {
+          "name": "Get Ratings by User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{ratingUrl}}/ratings/users/{{userId}}",
+              "host": ["{{ratingUrl}}"],
+              "path": ["ratings", "users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Ratings by Hotel",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{ratingUrl}}/ratings/hotels/{{hotelId}}",
+              "host": ["{{ratingUrl}}"],
+              "path": ["ratings", "hotels", "{{hotelId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Resilient Endpoints",
+      "item": [
+        {
+          "name": "Get User (Resilient)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{userUrl}}/resilient/users/{{userId}}",
+              "host": ["{{userUrl}}"],
+              "path": ["resilient", "users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users (Resilient)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{userUrl}}/resilient/users",
+              "host": ["{{userUrl}}"],
+              "path": ["resilient", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Complete Flow Test",
+      "item": [
+        {
+          "name": "Step 1: Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Registration successful', function() {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.token).to.exist;",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    pm.collectionVariables.set('userId', jsonData.userId);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"flow_test_{{$timestamp}}\",\n  \"password\": \"password123\",\n  \"email\": \"flowtest{{$timestamp}}@example.com\",\n  \"name\": \"Flow Test User\",\n  \"about\": \"Testing complete flow\"\n}"
+            },
+            "url": {
+              "raw": "{{authUrl}}/auth/register",
+              "host": ["{{authUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Step 2: Create Hotel",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Hotel created', function() {",
+                  "    pm.response.to.have.status(201);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('hotelId', jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Hotel {{$timestamp}}\",\n  \"location\": \"Mumbai\",\n  \"about\": \"Test hotel for flow\"\n}"
+            },
+            "url": {
+              "raw": "{{hotelUrl}}/hotels",
+              "host": ["{{hotelUrl}}"],
+              "path": ["hotels"]
+            }
+          }
+        },
+        {
+          "name": "Step 3: Create Rating",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Rating created', function() {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"hotelId\": \"{{hotelId}}\",\n  \"rating\": 5,\n  \"feedback\": \"Excellent!\"\n}"
+            },
+            "url": {
+              "raw": "{{ratingUrl}}/ratings",
+              "host": ["{{ratingUrl}}"],
+              "path": ["ratings"]
+            }
+          }
+        },
+        {
+          "name": "Step 4: Get Complete User Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('User data retrieved with ratings and hotels', function() {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.ratings).to.be.an('array');",
+                  "    pm.expect(jsonData.ratings.length).to.be.above(0);",
+                  "    pm.expect(jsonData.ratings[0].hotel).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{userUrl}}/users/{{userId}}",
+              "host": ["{{userUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

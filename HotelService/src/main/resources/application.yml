@@ -1,0 +1,19 @@
+server:
+  port: 8082
+
+spring:
+  application:
+   name: HotelService
+  config:
+   import: optional:configserver:http://localhost:8085
+  datasource:
+   url: jdbc:postgresql://localhost:5432/microservice
+   username: postgres
+   password: Vivek@123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Eureka configuration is fetched from Config Server (application.yml in Git)

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    config:
+      uri: http://localhost:8085
+      fail-fast: false

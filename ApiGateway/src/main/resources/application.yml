@@ -1,0 +1,41 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: ApiGateway
+  config:
+    import: optional:configserver:http://localhost:8085
+  cloud:
+    gateway:
+      routes:
+        - id: AuthService
+          uri: lb://AuthService
+          predicates:
+            - Path=/auth/**
+        - id: UserService
+          uri: lb://UserService
+          predicates:
+            - Path=/users/**
+          filters:
+            - AuthenticationFilter
+        - id: UserServiceResilient
+          uri: lb://UserService
+          predicates:
+            - Path=/resilient/users/**
+          filters:
+            - AuthenticationFilter
+        - id: HotelService
+          uri: lb://HotelService
+          predicates:
+            - Path=/hotels/**,/staffs/**
+          filters:
+            - AuthenticationFilter
+        - id: RatingService
+          uri: lb://RatingService
+          predicates:
+            - Path=/ratings/**
+          filters:
+            - AuthenticationFilter
+
+# Eureka configuration is fetched from Config Server (application.yml in Git)
