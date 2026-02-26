@@ -62,9 +62,8 @@ application-dev.yml
 *.env
 .env
 
-# Docker Compose - Keep only main file
+# Docker Compose - Keep only alternate full stack version
 docker-compose-full.yml
-docker-compose-elk.yml
 
 # Test files
 test_*.json
