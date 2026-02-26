@@ -31,7 +31,14 @@ cd RatingService && mvn spring-boot:run
 cd ApiGateway && mvn spring-boot:run
 ```
 
-See [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md) for details.
+See [docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md) for details.
+
+## 📸 Screenshots
+
+### Kibana Dashboard - Centralized Logging
+![Kibana Dashboard](screenshots/kibana-dashboard.png)
+
+*Real-time log visualization with Elasticsearch, Logstash, and Kibana showing logs from all microservices*
 
 ## 📚 Documentation
 
