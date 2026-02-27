@@ -186,11 +186,18 @@ This project implements production-ready security practices:
 - **Environment Variables**: All secrets managed via environment variables
 - **JWT Authentication**: 15-minute token expiry with secure secret management
 - **Rate Limiting**: Protection against brute-force attacks (5 attempts/minute)
-- **Network Isolation**: Internal services not exposed to host network
+- **Network Isolation**: Internal services not exposed to host network (Docker)
 - **Eureka Security**: Dashboard protected with basic authentication
 - **Password Encryption**: BCrypt hashing with salt
+- **API Gateway Pattern**: Single entry point for all client requests
 
-See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) for complete security documentation.
+**⚠️ Important Security Note:**
+- In production (Docker/Kubernetes), only API Gateway (8084) and Eureka (8761) are publicly accessible
+- Internal services (AuthService, UserService, HotelService, RatingService) are isolated in private network
+- All client requests MUST go through API Gateway
+- Direct service access is only available in local development for debugging
+
+See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) and [docs/API_GATEWAY_USAGE.md](docs/API_GATEWAY_USAGE.md) for complete security documentation.
 
 ---
 
