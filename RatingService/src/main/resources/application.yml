@@ -4,9 +4,9 @@ spring:
  config:
   import: optional:configserver:http://localhost:8085
  datasource:
-  url: jdbc:mysql://localhost:3306/rating_service
-  username: root
-  password: Vivek@123
+  url: ${RATING_DB_URL:jdbc:mysql://localhost:3306/rating_service}
+  username: ${RATING_DB_USERNAME:root}
+  password: ${RATING_DB_PASSWORD}
   driver-class-name: com.mysql.cj.jdbc.Driver
 
  jpa:

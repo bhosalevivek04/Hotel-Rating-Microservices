@@ -24,6 +24,7 @@ tmp/
 local.properties
 .loadpath
 .recommenders
+*.launch
 
 # IntelliJ IDEA
 .idea/
@@ -61,6 +62,15 @@ application-local.yml
 application-dev.yml
 *.env
 .env
+.env.local
+.env.production
+.env.development
+
+# Security - Never commit these
+**/application-local.yml
+**/application-local.properties
+**/application-secret.yml
+**/application-secret.properties
 
 # Docker Compose - Keep only alternate full stack version
 docker-compose-full.yml

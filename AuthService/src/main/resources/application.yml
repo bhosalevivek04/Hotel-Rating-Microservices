@@ -7,9 +7,9 @@ spring:
   config:
     import: optional:configserver:http://localhost:8085
   datasource:
-    url: jdbc:mysql://localhost:3306/auth_service_db
-    username: root
-    password: Vivek@123
+    url: ${AUTH_DB_URL:jdbc:mysql://localhost:3306/auth_service_db}
+    username: ${AUTH_DB_USERNAME:root}
+    password: ${AUTH_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -21,8 +21,8 @@ spring:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:mySecretKeyForJWTTokenGenerationAndValidation12345678901234567890}
-  expiration: ${JWT_EXPIRATION:36000000}
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:900000}
 
 # Feign Client Configuration
 feign:
@@ -40,5 +40,28 @@ logging:
   level:
     com.vivek.auth.external: DEBUG
     feign: DEBUG
+
+# Resilience4j Rate Limiter for Auth endpoints
+resilience4j:
+  ratelimiter:
+    instances:
+      authRateLimiter:
+        limitRefreshPeriod: 60s
+        limitForPeriod: 5
+        timeoutDuration: 0s
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 100
+
+management:
+  health:
+    ratelimiters:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,ratelimiters
+  endpoint:
+    health:
+      show-details: always
 
 # Eureka configuration is fetched from Config Server

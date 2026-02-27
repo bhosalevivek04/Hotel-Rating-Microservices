@@ -7,9 +7,9 @@ spring:
   config:
    import: optional:configserver:http://localhost:8085
   datasource:
-   url: jdbc:postgresql://localhost:5432/microservice
-   username: postgres
-   password: Vivek@123
+   url: ${HOTEL_DB_URL:jdbc:postgresql://localhost:5432/microservice}
+   username: ${HOTEL_DB_USERNAME:postgres}
+   password: ${HOTEL_DB_PASSWORD}
 
   jpa:
     hibernate:

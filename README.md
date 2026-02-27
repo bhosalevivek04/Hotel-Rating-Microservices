@@ -4,16 +4,26 @@ A production-ready microservices architecture demonstrating industry-standard pa
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Docker & Docker Compose installed
+- Copy `.env.example` to `.env` and configure your secrets
+
 ### Option 1: Docker Deployment (Recommended)
 
 ```bash
-# Deploy entire stack with one command
+# 1. Setup environment variables
+cp .env.example .env
+# Edit .env and set secure passwords and JWT secret
+
+# 2. Deploy entire stack
 docker-compose up -d --build
 
-# Wait 2-3 minutes, then access:
-# - Eureka: http://localhost:8761
+# 3. Wait 2-3 minutes, then access:
+# - Eureka: http://localhost:8761 (username: admin, password: from .env)
 # - API Gateway: http://localhost:8084
 ```
+
+**Important**: See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) for detailed security configuration.
 
 **Note**: For ELK Stack setup, see [docs/ELK_SETUP_GUIDE.md](docs/ELK_SETUP_GUIDE.md)
 
@@ -22,7 +32,13 @@ See [docs/DOCKER_QUICK_START.md](docs/DOCKER_QUICK_START.md) for details.
 ### Option 2: Local Development
 
 ```bash
-# Start each service manually
+# 1. Set environment variables (see SECURITY_SETUP.md)
+# Windows PowerShell:
+$env:AUTH_DB_PASSWORD="your_password"
+$env:JWT_SECRET="your_secret_key"
+# ... (see SECURITY_SETUP.md for complete list)
+
+# 2. Start each service manually
 cd ServiceRegistry && mvn spring-boot:run
 cd AuthService && mvn spring-boot:run
 cd UserService && mvn spring-boot:run
@@ -31,7 +47,7 @@ cd RatingService && mvn spring-boot:run
 cd ApiGateway && mvn spring-boot:run
 ```
 
-See [docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md) for details.
+See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) and [docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md) for details.
 
 ## 📸 Screenshots
 
@@ -46,6 +62,7 @@ All documentation is organized in the [`docs/`](docs/) folder.
 
 ### Getting Started
 - 📖 [Project Summary](docs/PROJECT_SUMMARY.md) - Complete overview
+- 🔐 [Security Setup](docs/SECURITY_SETUP.md) - Security configuration guide
 - 🚀 [Docker Quick Start](docs/DOCKER_QUICK_START.md) - Deploy with Docker
 - 🔧 [Quick Start Guide](docs/QUICK_START_GUIDE.md) - Local development
 - 📑 [Documentation Index](docs/DOCUMENTATION_INDEX.md) - All docs navigation
@@ -87,6 +104,10 @@ All documentation is organized in the [`docs/`](docs/) folder.
 ✅ BCrypt password hashing
 ✅ Token validation at gateway
 ✅ Role-based access control
+✅ Environment-based secrets management
+✅ Eureka dashboard authentication
+✅ Rate limiting on auth endpoints
+✅ Network isolation for internal services
 
 ### Resilience
 ✅ Circuit Breaker pattern
@@ -158,9 +179,30 @@ $token = $response.token
 $userId = $response.userId
 ```
 
+## 🔒 Security
+
+This project implements production-ready security practices:
+
+- **Environment Variables**: All secrets managed via environment variables
+- **JWT Authentication**: 15-minute token expiry with secure secret management
+- **Rate Limiting**: Protection against brute-force attacks (5 attempts/minute)
+- **Network Isolation**: Internal services not exposed to host network
+- **Eureka Security**: Dashboard protected with basic authentication
+- **Password Encryption**: BCrypt hashing with salt
+
+See [docs/SECURITY_SETUP.md](docs/SECURITY_SETUP.md) for complete security documentation.
+
+---
+
 ## 🐳 Docker Commands
 
+**Important**: Ensure `.env` file is configured before running Docker commands.
+
 ```bash
+# Setup environment
+cp .env.example .env
+# Edit .env with your secure values
+
 # Start all services
 docker-compose up -d --build
 
